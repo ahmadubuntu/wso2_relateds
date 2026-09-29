@@ -17,7 +17,7 @@ Operational workspace for WSO2 API Manager analytics (Kibana/Elastic) and relate
 
 Kibana is remote. Create or update dashboards with session login to `/internal/security/login` (basic provider), then `POST /api/saved_objects/dashboard/{id}?overwrite=true`.
 
-APIM Publisher (`https://apig-am.charisma.tech`, AM 4.2): use `scripts/apim_grant_scope.py` with env `WSO2_PRD_USER` / `WSO2_PRD_PASS`. Default dry-run; persist with `--apply`; gateway pickup needs `--deploy`.
+APIM Publisher (`https://apig-am.charisma.tech`, AM 4.2): use `scripts/apim_grant_scope.py` with env `WSO2_PRD_USER` / `WSO2_PRD_PASS`. Default dry-run; persist with `--apply`; gateway pickup needs `--deploy`. By default also syncs scope name into DevPortal `visibleRoles` (RESTRICTED visibility). See `README.md`. Dual-git: GitHub `origin` + Azure `azure` — every push updates both.
 
 Credentials live outside git (shell env / password manager). Never put passwords in `plans/` or `kibana/` or `scripts/`.
 
@@ -32,7 +32,8 @@ Credentials live outside git (shell env / password manager). Never put passwords
 
 - Data view time field is `requestTimestamp`, not `@timestamp`. Time-series Lens charts must use `requestTimestamp` or they will not follow the dashboard time picker.
 - User field used by existing APIM dashboards: `userName.keyword`.
-- CharismaHelios ops currently use shared scope `admin`; adding another scope requires API-level shared-scope attach + per-operation scopes + revision deploy.
+- Adding a new scope on a RESTRICTED API also needs the same name in `visibleRoles` (Portal Configurations → Developer portal visibility Roles), or users cannot see the API in DevPortal.
+- Adding another operation scope requires API-level shared-scope attach + per-operation scopes + revision deploy.
 - Spec Kit (`.specify/`) present but constitution still template; ops scripts use `plans/` as source of truth for now.
 
 ## Plans
@@ -41,4 +42,4 @@ Convention: `plans/YYYY-MM-DD_HHMMSS_<slug>.md`. Never delete old plan files.
 
 ## Current focus
 
-[APIM grant-scope script](plans/2026-09-29_015200_apim-grant-scope-script.md)
+[APIM grant-scope v0.2 visibleRoles + README](plans/2026-09-29_023058_apim-grant-scope-visibleroles-readme.md)
