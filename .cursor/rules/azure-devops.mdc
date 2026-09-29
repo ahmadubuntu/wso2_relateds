@@ -1,0 +1,27 @@
+---
+description: Dual-git push obligation (GitHub + Azure DataPlatform)
+alwaysApply: true
+---
+
+# Dual git (this repo)
+
+Remotes:
+
+- `origin` → `https://github.com/ahmadubuntu/wso2_relateds.git`
+- `azure` → `https://azure.charisma.tech/DataPlatform/DataPlatform/_git/wso2_relateds`
+
+Auth for Azure: env **`AZDO_PAT_DATAPLATFORM`** only (not `AZDO_PAT`).
+
+Every push in this repo must update **both** remotes in the same turn:
+
+```bash
+AUTH_HEADER="AUTHORIZATION: Basic $(printf ':%s' "$AZDO_PAT_DATAPLATFORM" | base64 -w0)"
+git push -u origin HEAD
+git -c credential.helper= -c http.extraHeader="$AUTH_HEADER" push -u azure HEAD
+# when tags changed:
+git push origin --tags
+git -c credential.helper= -c http.extraHeader="$AUTH_HEADER" push azure --tags
+git branch --set-upstream-to=origin/<branch> <branch>
+```
+
+Never embed the PAT in the remote URL. Never dump the token.

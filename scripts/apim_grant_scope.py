@@ -4,11 +4,15 @@
 Auth: DCR + password grant using env vars (default WSO2_PRD_USER / WSO2_PRD_PASS).
 Target: Publisher REST API v4 on WSO2 API Manager 4.2.
 
+Also syncs Developer Portal visibility role (visibleRoles) to the same scope
+name by default — required when API visibility is RESTRICTED so users with
+that role can see the API/collection in DevPortal.
+
 Examples:
   # List operations + current scopes
   python3 scripts/apim_grant_scope.py --api CharismaHelios --list
 
-  # Dry-run: add tester to ALL operations
+  # Dry-run: add tester to ALL operations (+ visibleRoles)
   python3 scripts/apim_grant_scope.py --api CharismaHelios --scope tester --ops all
 
   # Dry-run: add tester to specific GraphQL fields / REST targets
@@ -319,6 +323,40 @@ def ensure_api_scope(api: dict[str, Any], scope_name: str, shared: dict[str, Any
     return True
 
 
+def ensure_visible_role(
+    api: dict[str, Any], role_name: str
+) -> tuple[bool, list[str], list[str], list[str]]:
+    """Add role_name to Developer Portal visibility roles (visibleRoles).
+
+    UI path: Publisher → API → Portal Configurations → Basic Info →
+    Developer portal visibility Roles.
+
+    Returns (changed, before_roles, after_roles, notes).
+    """
+    notes: list[str] = []
+    visibility = api.get("visibility")
+    before = list(api.get("visibleRoles") or [])
+    after = list(before)
+    changed = False
+
+    if visibility != "RESTRICTED":
+        notes.append(
+            f"visibility={visibility!r}; DevPortal role filter applies when "
+            "visibility is RESTRICTED (Portal Configurations → Basic Info)"
+        )
+
+    if role_name not in after:
+        after.append(role_name)
+        api["visibleRoles"] = after
+        changed = True
+        if visibility != "RESTRICTED":
+            notes.append(
+                f"added {role_name!r} to visibleRoles; set visibility to "
+                "RESTRICTED in Publisher for users with that role to see the API"
+            )
+    return changed, before, after, notes
+
+
 def grant_scope_on_ops(
     api: dict[str, Any],
     scope_name: str,
@@ -365,6 +403,7 @@ def grant_scope_on_ops(
 
 def print_ops(api: dict[str, Any]) -> None:
     print(f"API {api.get('name')} {api.get('version')} id={api.get('id')} status={api.get('lifeCycleStatus')}")
+    print(f"DevPortal visibility: {api.get('visibility')}  roles={api.get('visibleRoles')}")
     api_scopes = []
     for entry in api.get("scopes") or []:
         sc = entry.get("scope") if isinstance(entry, dict) else None
@@ -450,6 +489,11 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="Revision description (default auto)",
     )
+    p.add_argument(
+        "--no-visible-role",
+        action="store_true",
+        help="Do not add scope name to Developer Portal visibleRoles",
+    )
     args = p.parse_args(argv)
 
     user = os.environ.get(args.user_env)
@@ -485,6 +529,15 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     api_scope_added = ensure_api_scope(api, args.scope, shared)
+    visible_changed = False
+    visible_before: list[str] = list(api.get("visibleRoles") or [])
+    visible_after = list(visible_before)
+    visible_notes: list[str] = []
+    if not args.no_visible_role:
+        visible_changed, visible_before, visible_after, visible_notes = ensure_visible_role(
+            api, args.scope
+        )
+
     changes = grant_scope_on_ops(api, args.scope, selectors)
     matched = changes
     changed = [c for c in changes if c["changed"]]
@@ -495,6 +548,15 @@ def main(argv: list[str] | None = None) -> int:
     print(f"API: {api.get('name')} ({api_id})")
     print(f"Scope: {args.scope} (shared id={shared.get('id')})")
     print(f"API-level scope attach: {'YES (new)' if api_scope_added else 'already present'}")
+    print(
+        f"DevPortal visibleRoles: visibility={api.get('visibility')} "
+        f"{'UPDATE' if visible_changed else 'skip'} "
+        f"{visible_before} -> {visible_after}"
+    )
+    for note in visible_notes:
+        print(f"  note: {note}")
+    if args.no_visible_role:
+        print("  note: --no-visible-role set; skipped visibleRoles sync")
     print(f"Matched ops: {len(matched)}  will-change: {len(changed)}")
     for c in matched:
         flag = "UPDATE" if c["changed"] else "skip"
@@ -506,12 +568,13 @@ def main(argv: list[str] | None = None) -> int:
             print("(Note: --deploy ignored without --apply)")
         return 0
 
-    if not changed and not api_scope_added:
+    if not changed and not api_scope_added and not visible_changed:
         print("Nothing to update.")
         return 0
 
     updated = client.update_api(api_id, api)
     print(f"API updated. lastUpdatedTime={updated.get('lastUpdatedTime')}")
+    print(f"visibleRoles now: {updated.get('visibleRoles')}")
 
     if args.deploy:
         ensure_revision_capacity(client, api_id)
