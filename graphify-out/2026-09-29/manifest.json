@@ -1,0 +1,26 @@
+{
+  "kibana/dashboards/apim-top-users-over-time.json": {
+    "mtime": 1788956202.6756704,
+    "seen": 1789896737.7047179,
+    "ast_hash": "4d4b3b70cb972050b414412cd9695f7b",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1788956139.0106108,
+    "seen": 1789896737.7047195,
+    "ast_hash": "c738bbe7205b9b8304fa6547d7814efb",
+    "semantic_hash": ""
+  },
+  "lastWorkingDate/rayan-portfolio-403-authorization-casing-fix.md": {
+    "mtime": 1789217327.5854309,
+    "seen": 1789896737.7047207,
+    "ast_hash": "e06da8ebe334ae913b3c4ab223c23379",
+    "semantic_hash": ""
+  },
+  "plans/2026-09-09_080908_kibana-top-users-dashboard.md": {
+    "mtime": 1788956138.8672137,
+    "seen": 1789896737.7047222,
+    "ast_hash": "cf4632cd65fb88346c29bfd8ed307634",
+    "semantic_hash": ""
+  }
+}

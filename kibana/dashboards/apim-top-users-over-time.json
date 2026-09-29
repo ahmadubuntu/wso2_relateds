@@ -1,0 +1,86 @@
+{
+  "id": "f7e21c90-4a5b-4d8e-9c31-8b6a2d0e4f11",
+  "type": "dashboard",
+  "attributes": {
+    "title": "APIM Top Users Over Time",
+    "description": "Which APIM users sent the most requests over time (data view apim_event*). Vertical stacked bars by userName, with Username / API / Application controls.",
+    "hits": 0,
+    "timeRestore": true,
+    "timeFrom": "now-7d",
+    "timeTo": "now",
+    "refreshInterval": {
+      "pause": true,
+      "value": 0
+    },
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "{\"query\": {\"query\": \"\", \"language\": \"kuery\"}, \"filter\": []}"
+    },
+    "optionsJSON": "{\"useMargins\": true, \"syncColors\": true, \"syncCursor\": true, \"syncTooltips\": false, \"hidePanelTitles\": false}",
+    "panelsJSON": "[{\"type\": \"lens\", \"gridData\": {\"x\": 0, \"y\": 0, \"w\": 12, \"h\": 8, \"i\": \"p-total-requests\"}, \"panelIndex\": \"p-total-requests\", \"embeddableConfig\": {\"attributes\": {\"title\": \"Total requests\", \"visualizationType\": \"lnsLegacyMetric\", \"type\": \"lens\", \"references\": [{\"id\": \"0d83f380-6eda-11ec-9dad-f7e4782fdbce\", \"name\": \"indexpattern-datasource-current-indexpattern\", \"type\": \"index-pattern\"}, {\"id\": \"0d83f380-6eda-11ec-9dad-f7e4782fdbce\", \"name\": \"indexpattern-datasource-layer-layer-total\", \"type\": \"index-pattern\"}], \"state\": {\"visualization\": {\"layerId\": \"layer-total\", \"accessor\": \"col-count-total\", \"layerType\": \"data\", \"textAlign\": \"center\", \"titlePosition\": \"bottom\", \"size\": \"xl\"}, \"query\": {\"query\": \"\", \"language\": \"kuery\"}, \"filters\": [], \"datasourceStates\": {\"formBased\": {\"layers\": {\"layer-total\": {\"columns\": {\"col-count-total\": {\"label\": \"Total requests\", \"dataType\": \"number\", \"operationType\": \"count\", \"isBucketed\": false, \"scale\": \"ratio\", \"sourceField\": \"___records___\", \"customLabel\": true, \"params\": {\"emptyAsNull\": true}}}, \"columnOrder\": [\"col-count-total\"], \"incompleteColumns\": {}}}}}}}, \"enhancements\": {}, \"hidePanelTitles\": false}, \"title\": \"Total requests\"}, {\"type\": \"lens\", \"gridData\": {\"x\": 12, \"y\": 0, \"w\": 12, \"h\": 8, \"i\": \"p-unique-users\"}, \"panelIndex\": \"p-unique-users\", \"embeddableConfig\": {\"attributes\": {\"title\": \"Unique users\", \"visualizationType\": \"lnsLegacyMetric\", \"type\": \"lens\", \"references\": [{\"id\": \"0d83f380-6eda-11ec-9dad-f7e4782fdbce\", \"name\": \"indexpattern-datasource-current-indexpattern\", \"type\": \"index-pattern\"}, {\"id\": \"0d83f380-6eda-11ec-9dad-f7e4782fdbce\", \"name\": \"indexpattern-datasource-layer-layer-uniq\", \"type\": \"index-pattern\"}], \"state\": {\"visualization\": {\"layerId\": \"layer-uniq\", \"accessor\": \"col-uniq-users\", \"layerType\": \"data\", \"textAlign\": \"center\", \"titlePosition\": \"bottom\", \"size\": \"xl\"}, \"query\": {\"query\": \"\", \"language\": \"kuery\"}, \"filters\": [], \"datasourceStates\": {\"formBased\": {\"layers\": {\"layer-uniq\": {\"columns\": {\"col-uniq-users\": {\"label\": \"Unique users\", \"dataType\": \"number\", \"operationType\": \"unique_count\", \"isBucketed\": false, \"scale\": \"ratio\", \"sourceField\": \"userName.keyword\", \"customLabel\": true}}, \"columnOrder\": [\"col-uniq-users\"], \"incompleteColumns\": {}}}}}}}, \"enhancements\": {}, \"hidePanelTitles\": false}, \"title\": \"Unique users\"}, {\"type\": \"lens\", \"gridData\": {\"x\": 24, \"y\": 0, \"w\": 24, \"h\": 8, \"i\": \"p-top-users-bar\"}, \"panelIndex\": \"p-top-users-bar\", \"embeddableConfig\": {\"attributes\": {\"title\": \"Top users by requests\", \"visualizationType\": \"lnsXY\", \"type\": \"lens\", \"references\": [{\"id\": \"0d83f380-6eda-11ec-9dad-f7e4782fdbce\", \"name\": \"indexpattern-datasource-layer-layer-rank\", \"type\": \"index-pattern\"}], \"state\": {\"visualization\": {\"legend\": {\"isVisible\": false, \"position\": \"right\"}, \"valueLabels\": \"hide\", \"fittingFunction\": \"None\", \"axisTitlesVisibilitySettings\": {\"x\": true, \"yLeft\": true, \"yRight\": true}, \"tickLabelsVisibilitySettings\": {\"x\": true, \"yLeft\": true, \"yRight\": true}, \"labelsOrientation\": {\"x\": 0, \"yLeft\": 0, \"yRight\": 0}, \"gridlinesVisibilitySettings\": {\"x\": true, \"yLeft\": true, \"yRight\": true}, \"preferredSeriesType\": \"bar_horizontal\", \"layers\": [{\"layerId\": \"layer-rank\", \"seriesType\": \"bar_horizontal\", \"accessors\": [\"col-rank-count\"], \"layerType\": \"data\", \"xAccessor\": \"col-rank-user\"}]}, \"query\": {\"query\": \"\", \"language\": \"kuery\"}, \"filters\": [], \"datasourceStates\": {\"formBased\": {\"layers\": {\"layer-rank\": {\"columns\": {\"col-rank-count\": {\"label\": \"Requests\", \"dataType\": \"number\", \"operationType\": \"count\", \"isBucketed\": false, \"scale\": \"ratio\", \"sourceField\": \"___records___\", \"params\": {\"emptyAsNull\": true}, \"customLabel\": true}, \"col-rank-user\": {\"label\": \"Username\", \"dataType\": \"string\", \"operationType\": \"terms\", \"scale\": \"ordinal\", \"sourceField\": \"userName.keyword\", \"isBucketed\": true, \"params\": {\"size\": 15, \"orderBy\": {\"type\": \"column\", \"columnId\": \"col-rank-count\"}, \"orderDirection\": \"desc\", \"otherBucket\": false, \"missingBucket\": false, \"parentFormat\": {\"id\": \"terms\"}}, \"customLabel\": true}}, \"columnOrder\": [\"col-rank-user\", \"col-rank-count\"], \"incompleteColumns\": {}}}}}, \"internalReferences\": [], \"adHocDataViews\": {}}}, \"enhancements\": {}, \"hidePanelTitles\": false}, \"title\": \"Top 15 users\"}, {\"type\": \"lens\", \"gridData\": {\"x\": 0, \"y\": 8, \"w\": 48, \"h\": 20, \"i\": \"p-requests-over-time\"}, \"panelIndex\": \"p-requests-over-time\", \"embeddableConfig\": {\"attributes\": {\"title\": \"Requests over time by user\", \"visualizationType\": \"lnsXY\", \"type\": \"lens\", \"references\": [{\"id\": \"0d83f380-6eda-11ec-9dad-f7e4782fdbce\", \"name\": \"indexpattern-datasource-layer-layer-time\", \"type\": \"index-pattern\"}], \"state\": {\"visualization\": {\"legend\": {\"isVisible\": true, \"position\": \"right\", \"legendSize\": \"auto\"}, \"valueLabels\": \"hide\", \"fittingFunction\": \"None\", \"axisTitlesVisibilitySettings\": {\"x\": true, \"yLeft\": true, \"yRight\": true}, \"tickLabelsVisibilitySettings\": {\"x\": true, \"yLeft\": true, \"yRight\": true}, \"labelsOrientation\": {\"x\": 0, \"yLeft\": 0, \"yRight\": 0}, \"gridlinesVisibilitySettings\": {\"x\": true, \"yLeft\": true, \"yRight\": true}, \"preferredSeriesType\": \"bar_stacked\", \"layers\": [{\"layerId\": \"layer-time\", \"seriesType\": \"bar_stacked\", \"splitAccessor\": \"col-time-user\", \"accessors\": [\"col-time-count\"], \"layerType\": \"data\", \"xAccessor\": \"col-time-date\", \"yConfig\": [{\"forAccessor\": \"col-time-count\", \"axisMode\": \"left\"}]}]}, \"query\": {\"query\": \"\", \"language\": \"kuery\"}, \"filters\": [], \"datasourceStates\": {\"formBased\": {\"layers\": {\"layer-time\": {\"columns\": {\"col-time-count\": {\"label\": \"Requests\", \"dataType\": \"number\", \"operationType\": \"count\", \"isBucketed\": false, \"scale\": \"ratio\", \"sourceField\": \"___records___\", \"params\": {\"emptyAsNull\": true}, \"customLabel\": true}, \"col-time-user\": {\"label\": \"Username\", \"dataType\": \"string\", \"operationType\": \"terms\", \"scale\": \"ordinal\", \"sourceField\": \"userName.keyword\", \"isBucketed\": true, \"params\": {\"size\": 10, \"orderBy\": {\"type\": \"column\", \"columnId\": \"col-time-count\"}, \"orderDirection\": \"desc\", \"otherBucket\": true, \"missingBucket\": false, \"parentFormat\": {\"id\": \"terms\"}}, \"customLabel\": true}, \"col-time-date\": {\"label\": \"requestTimestamp\", \"dataType\": \"date\", \"operationType\": \"date_histogram\", \"sourceField\": \"requestTimestamp\", \"isBucketed\": true, \"scale\": \"interval\", \"params\": {\"interval\": \"auto\", \"includeEmptyRows\": true, \"dropPartials\": false}, \"customLabel\": true}}, \"columnOrder\": [\"col-time-user\", \"col-time-date\", \"col-time-count\"], \"incompleteColumns\": {}}}}}, \"internalReferences\": [], \"adHocDataViews\": {}}}, \"enhancements\": {}, \"hidePanelTitles\": false}, \"title\": \"Requests over time by user\"}, {\"type\": \"lens\", \"gridData\": {\"x\": 0, \"y\": 28, \"w\": 48, \"h\": 16, \"i\": \"p-users-table\"}, \"panelIndex\": \"p-users-table\", \"embeddableConfig\": {\"attributes\": {\"title\": \"User request breakdown\", \"visualizationType\": \"lnsDatatable\", \"type\": \"lens\", \"references\": [{\"id\": \"0d83f380-6eda-11ec-9dad-f7e4782fdbce\", \"name\": \"indexpattern-datasource-current-indexpattern\", \"type\": \"index-pattern\"}, {\"id\": \"0d83f380-6eda-11ec-9dad-f7e4782fdbce\", \"name\": \"indexpattern-datasource-layer-layer-table\", \"type\": \"index-pattern\"}], \"state\": {\"visualization\": {\"layerId\": \"layer-table\", \"layerType\": \"data\", \"columns\": [{\"isTransposed\": false, \"columnId\": \"col-tbl-user\"}, {\"isTransposed\": false, \"columnId\": \"col-tbl-api\"}, {\"isTransposed\": false, \"columnId\": \"col-tbl-app\"}, {\"isTransposed\": false, \"columnId\": \"col-tbl-count\"}], \"rowHeight\": \"single\", \"rowHeightLines\": 1}, \"query\": {\"query\": \"\", \"language\": \"kuery\"}, \"filters\": [], \"datasourceStates\": {\"formBased\": {\"layers\": {\"layer-table\": {\"columns\": {\"col-tbl-user\": {\"label\": \"Username\", \"dataType\": \"string\", \"operationType\": \"terms\", \"scale\": \"ordinal\", \"sourceField\": \"userName.keyword\", \"isBucketed\": true, \"params\": {\"size\": 50, \"orderBy\": {\"type\": \"column\", \"columnId\": \"col-tbl-count\"}, \"orderDirection\": \"desc\", \"otherBucket\": true, \"missingBucket\": false, \"parentFormat\": {\"id\": \"terms\"}}, \"customLabel\": true}, \"col-tbl-api\": {\"label\": \"API\", \"dataType\": \"string\", \"operationType\": \"terms\", \"scale\": \"ordinal\", \"sourceField\": \"apiName.keyword\", \"isBucketed\": true, \"params\": {\"size\": 20, \"orderBy\": {\"type\": \"column\", \"columnId\": \"col-tbl-count\"}, \"orderDirection\": \"desc\", \"otherBucket\": true, \"missingBucket\": false, \"parentFormat\": {\"id\": \"terms\"}}, \"customLabel\": true}, \"col-tbl-app\": {\"label\": \"Application\", \"dataType\": \"string\", \"operationType\": \"terms\", \"scale\": \"ordinal\", \"sourceField\": \"applicationName.keyword\", \"isBucketed\": true, \"params\": {\"size\": 20, \"orderBy\": {\"type\": \"column\", \"columnId\": \"col-tbl-count\"}, \"orderDirection\": \"desc\", \"otherBucket\": true, \"missingBucket\": false, \"parentFormat\": {\"id\": \"terms\"}}, \"customLabel\": true}, \"col-tbl-count\": {\"label\": \"Requests\", \"dataType\": \"number\", \"operationType\": \"count\", \"isBucketed\": false, \"scale\": \"ratio\", \"sourceField\": \"___records___\", \"params\": {\"emptyAsNull\": true}, \"customLabel\": true}}, \"columnOrder\": [\"col-tbl-user\", \"col-tbl-api\", \"col-tbl-app\", \"col-tbl-count\"], \"incompleteColumns\": {}}}}}}}, \"enhancements\": {}, \"hidePanelTitles\": false}, \"title\": \"User / API / application breakdown\"}]",
+    "controlGroupInput": {
+      "chainingSystem": "HIERARCHICAL",
+      "controlStyle": "oneLine",
+      "ignoreParentSettingsJSON": "{\"ignoreFilters\": false, \"ignoreQuery\": false, \"ignoreTimerange\": false, \"ignoreValidations\": false}",
+      "panelsJSON": "{\"ctrl-username\": {\"type\": \"optionsListControl\", \"order\": 0, \"grow\": true, \"width\": \"medium\", \"explicitInput\": {\"id\": \"ctrl-username\", \"fieldName\": \"userName.keyword\", \"title\": \"Username\", \"grow\": true, \"width\": \"medium\", \"enhancements\": {}}}, \"ctrl-apiname\": {\"type\": \"optionsListControl\", \"order\": 1, \"grow\": true, \"width\": \"medium\", \"explicitInput\": {\"id\": \"ctrl-apiname\", \"fieldName\": \"apiName.keyword\", \"title\": \"API\", \"grow\": true, \"width\": \"medium\", \"enhancements\": {}}}, \"ctrl-appname\": {\"type\": \"optionsListControl\", \"order\": 2, \"grow\": true, \"width\": \"medium\", \"explicitInput\": {\"id\": \"ctrl-appname\", \"fieldName\": \"applicationName.keyword\", \"title\": \"Application\", \"grow\": true, \"width\": \"medium\", \"enhancements\": {}}}}"
+    },
+    "version": 1
+  },
+  "references": [
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "p-total-requests:indexpattern-datasource-current-indexpattern",
+      "type": "index-pattern"
+    },
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "p-total-requests:indexpattern-datasource-layer-layer-total",
+      "type": "index-pattern"
+    },
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "p-unique-users:indexpattern-datasource-current-indexpattern",
+      "type": "index-pattern"
+    },
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "p-unique-users:indexpattern-datasource-layer-layer-uniq",
+      "type": "index-pattern"
+    },
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "p-top-users-bar:indexpattern-datasource-layer-layer-rank",
+      "type": "index-pattern"
+    },
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "p-requests-over-time:indexpattern-datasource-layer-layer-time",
+      "type": "index-pattern"
+    },
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "p-users-table:indexpattern-datasource-current-indexpattern",
+      "type": "index-pattern"
+    },
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "p-users-table:indexpattern-datasource-layer-layer-table",
+      "type": "index-pattern"
+    },
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "controlGroup_ctrl-username:optionsListDataView",
+      "type": "index-pattern"
+    },
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "controlGroup_ctrl-apiname:optionsListDataView",
+      "type": "index-pattern"
+    },
+    {
+      "id": "0d83f380-6eda-11ec-9dad-f7e4782fdbce",
+      "name": "controlGroup_ctrl-appname:optionsListDataView",
+      "type": "index-pattern"
+    }
+  ],
+  "note": "Created via Kibana Saved Objects API. No credentials. Open: https://wso2kib.charisma.tech/app/dashboards#/view/f7e21c90-4a5b-4d8e-9c31-8b6a2d0e4f11"
+}

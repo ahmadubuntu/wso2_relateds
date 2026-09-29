@@ -1,0 +1,33 @@
+# Secrets / local env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Large captured runtime logs (keep markdown notes)
+lastWorkingDate/**/*.log
+lastWorkingDate/wso2am-pattern-*-deployment_*/
+
+# Graphify: keep graph + report; drop cache/backups/html
+graphify-out/cache/
+graphify-out/**/backup*/
+graphify-out/**/*.bak
+graphify-out/graph.html
+graphify-out/**/graph.html
+graphify-out/.graphify_labels.json
+graphify-out/.graphify_labels.json.sig
+graphify-out/.graphify_root
